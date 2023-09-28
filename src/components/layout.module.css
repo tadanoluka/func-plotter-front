@@ -1,0 +1,47 @@
+.container {
+    background: #404146;
+    width: 500px;
+    height: 568px;
+    margin: 163px auto auto;
+
+}
+.logoImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.signinForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 134px;
+}
+.signinFormField {
+    width: 450px;
+    height: 52px;
+}
+.signinFormButton {
+    width: 270px;
+    height: 70px;
+    margin-top: 74px;
+    justify-self: flex-end;
+    border-radius: 7px;
+}
+
+.signupPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 1em;
+    font-size: 0.8rem;
+}
+.signupLink {
+    color: #0892e7;
+}
+
+.signupLink:hover {
+    color: #1565C0;
+}
