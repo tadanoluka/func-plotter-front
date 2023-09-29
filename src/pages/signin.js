@@ -23,35 +23,50 @@ const theme = createTheme({
 
 const MyTextField = styled(TextField)({
     '& .MuiFilledInput-root': {
-        backgroundColor: '#2D2E33',
+        backgroundColor: '#2D2E33 !important',
         borderRadius: '7px 7px 0 0',
         boxShadow: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
     },
     '& .MuiFilledInput-root:hover': {
-        backgroundColor: '#292A2E',
+        backgroundColor: '#292A2E !important',
     },
+
+
+    // Label
     '& .MuiInputLabel-root': {
-        color: '#fff',
+        color: '#fff !important',
     },
-    '& .MuiInputLabel-root:focus': {
-        color: '#fff',
+    '& .MuiInputLabel-root::before': {
+        color: '#fff !important',
     },
+    '& .MuiInputLabel-root::after': {
+        color: '#fff !important',
+    },
+    '& .MuiInputLabel-root:focused': {
+        color: '#fff !important',
+    },
+
+    // Underline
     '& .MuiFilledInput-underline': {
-        color: '#fff',
+        color: '#fff !important',
     },
     '& .MuiFilledInput-underline:before': {
-        borderWidth: '2px',
-        borderBottomColor: '#25262A',
+        borderWidth: '2px !important',
+        borderBottomColor: '#25262A !important',
     },
     '& .MuiFilledInput-underline:hover::before': {
-        borderBottomColor: '#222326',
-        borderWidth: '2px',
+        borderBottomColor: '#222326 !important',
+        borderWidth: '2px !important',
+    },
+    '& :not(.Mui-disabled):hover::before': {
+        borderBottomColor: '#222326 !important',
+        borderWidth: '2px !important',
     },
     '& .MuiFilledInput-underline:after': {
-        borderBottomColor: '#616266',
+        borderBottomColor: '#616266 !important',
     },
     '& .MuiFilledInput-underline:hover::after': {
-        borderBottomColor: '#616266',
+        borderBottomColor: '#616266 !important',
     },
 });
 
@@ -67,8 +82,8 @@ export default function Signin() {
             <form className={styles.signinForm}>
                 <ThemeProvider theme={theme}>
                     <Stack spacing={5}>
-                        <MyTextField className={styles.signinFormField} type="login" label="Login" variant="filled" color="primary"/>
-                        <MyTextField className={styles.signinFormField} type="password" label="Password" variant="filled"/>
+                        <MyTextField className={styles.signinFormField} type="login" name="login" label="Login" variant="filled"/>
+                        <MyTextField className={styles.signinFormField} type="password" name="password" label="Password" variant="filled"/>
                     </Stack>
                     <Button className={styles.signinFormButton} type="submit" variant="contained" color="secondary">Sign in</Button>
                 </ThemeProvider>
