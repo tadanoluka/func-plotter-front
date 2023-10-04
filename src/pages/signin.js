@@ -4,6 +4,8 @@ import Link from "next/link";
 import Layout from "@/components/layout";
 import styles from "../components/layout.module.css";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import {useRouter} from "next/router";
+import {useState} from "react";
 
 const theme = createTheme({
     palette: {
@@ -71,6 +73,35 @@ const MyTextField = styled(TextField)({
 });
 
 export default function Signin() {
+    const router = useRouter();
+
+    const [state, setState] = useState({
+        username: "",
+        password: ""
+    })
+
+    function fill(e) {
+        const copy = {...state};
+        copy[e.target.name] = e.target.value;
+        setState(copy);
+    }
+
+    async function handle() {
+        const res = await fetch(`http://localhost:8080/auth/signin`, {
+            method: "POST",
+            body: JSON.stringify(state),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const text = await res.text();
+        alert(text);
+        if (res.ok) {
+            localStorage.setItem("token", text);
+            await router.push("/")
+        }
+    }
+
     return (
         <Layout>
             <Image className={styles.logoImage}
@@ -79,15 +110,30 @@ export default function Signin() {
                    height={146}
                    alt="Function\n Plotter" />
 
-            <form className={styles.signinForm}>
+            <div className={styles.signinForm}>
                 <ThemeProvider theme={theme}>
                     <Stack spacing={5}>
-                        <MyTextField className={styles.signinFormField} type="login" name="login" label="Login" variant="filled"/>
-                        <MyTextField className={styles.signinFormField} type="password" name="password" label="Password" variant="filled"/>
+                        <MyTextField className={styles.signinFormField}
+                                     type="text"
+                                     name="username"
+                                     label="Username"
+                                     value={state.username}
+                                     onChange={fill}
+                                     variant="filled"/>
+                        <MyTextField className={styles.signinFormField}
+                                     type="password"
+                                     name="password"
+                                     label="Password"
+                                     value={state.password}
+                                     onChange={fill}
+                                     variant="filled"/>
                     </Stack>
-                    <Button className={styles.signinFormButton} type="submit" variant="contained" color="secondary">Sign in</Button>
+                    <Button className={styles.signinFormButton}
+                            onClick={handle}
+                            variant="contained"
+                            color="secondary">Sign in</Button>
                 </ThemeProvider>
-            </form>
+            </div>
             <div className={styles.signupPanel}>
                 Don't have an account?
                 <Link href="/signup" className={styles.signupLink}>Sign up</Link>
