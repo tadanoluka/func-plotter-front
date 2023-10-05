@@ -10,17 +10,14 @@ export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRe
     const [lastMouseX, setLastMouseX] = useState()
     const [lastMouseY, setLastMouseY] = useState()
 
-
-
     useEffect(() => {
         const canvas = canvasRef.current;
 
         function handleResize() {
-            canvas.width = (window.innerWidth-4) * 2;
-            canvas.height = (window.innerHeight-4) * 2;
-            canvas.style.width = `${window.innerWidth-4}px`;
-            canvas.style.height = `${window.innerHeight-4}px`;
-            // canvas.style.background = "#fff";
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
+            canvas.width = (canvas.clientWidth) * 2;
+            canvas.height = (canvas.clientHeight) * 2;
 
             const context = canvas.getContext("2d");
             context.scale(2,2);
@@ -71,7 +68,7 @@ export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRe
     }
 
     function clearCanvas() {
-        canvasContextRef.current.clearRect(0, 0,  parseInt(canvasRef.current.style.width), parseInt(canvasRef.current.style.height))
+        canvasContextRef.current.clearRect(0, 0, canvasRef.current.clientWidth, canvasRef.current.clientHeight)
     }
 
     function update(){

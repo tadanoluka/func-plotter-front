@@ -7,9 +7,7 @@ import {GraphUtils} from "@/components/plotter/GraphUtils";
 import {GraphGrid} from "@/components/plotter/GraphGrid";
 
 
-export default function GraphPanel() {
-
-    const graphCanvasRef = useRef(null);
+export default function GraphPanel({ graphCanvasRef }) {
     const graphCanvasContextRef = useRef(null)
 
     const graphOriginRef = useRef(null);

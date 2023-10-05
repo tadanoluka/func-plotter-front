@@ -26,10 +26,10 @@ export class GraphGrid {
         if (cordY < 0) {
             cordY += this.graphScaler.getSegmentLengthY();
         }
-        const amount =  ((parseInt(this.canvas.style.height) - cordY) / this.graphScaler.getSegmentLengthY()) + 1;
+        const amount =  ((this.canvas.clientHeight - cordY) / this.graphScaler.getSegmentLengthY()) + 1;
         const lines = [];
         for (let i = 0; i < amount; i++) {
-            lines[i] = [0, cordY, parseInt(this.canvas.style.width), cordY];
+            lines[i] = [0, cordY, this.canvas.clientWidth, cordY];
             cordY += this.graphScaler.getSegmentLengthY();
         }
         return lines;
@@ -40,10 +40,10 @@ export class GraphGrid {
         if (cordX < 0) {
             cordX += this.graphScaler.getSegmentLengthX();
         }
-        const amount = ((parseInt(this.canvas.style.width) - cordX) / this.graphScaler.getSegmentLengthX()) + 1;
+        const amount = ((this.canvas.clientWidth - cordX) / this.graphScaler.getSegmentLengthX()) + 1;
         const lines = [];
         for (let i = 0; i < amount; i++) {
-            lines[i] = [cordX, 0, cordX, parseInt(this.canvas.style.height)];
+            lines[i] = [cordX, 0, cordX, this.canvas.clientHeight];
             cordX += this.graphScaler.getSegmentLengthX();
         }
         return lines;

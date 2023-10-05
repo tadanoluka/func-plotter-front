@@ -22,9 +22,9 @@ export class GraphAxes {
     getAxesLines() {
         const lines = [[]];
         // X Axis
-        lines[0] = [0, this.graphOrigin.getCanvasCordY(), parseInt(this.canvas.style.width), this.graphOrigin.getCanvasCordY()];
+        lines[0] = [0, this.graphOrigin.getCanvasCordY(), this.canvas.clientWidth, this.graphOrigin.getCanvasCordY()];
         // Y Axis
-        lines[1] = [this.graphOrigin.getCanvasCordX(), 0, this.graphOrigin.getCanvasCordX(), parseInt(this.canvas.style.height)];
+        lines[1] = [this.graphOrigin.getCanvasCordX(), 0, this.graphOrigin.getCanvasCordX(), this.canvas.clientHeight];
         return lines;
     }
 
@@ -56,7 +56,7 @@ export class GraphAxes {
         let startX = this.graphOrigin.getCanvasCordX() % segmentLength;
         startX = startX < 0 ? startX + segmentLength : startX;
 
-        let endX = Math.floor((parseInt(this.canvas.style.width) - startX) / segmentLength) * segmentLength + startX;
+        let endX = Math.floor((this.canvas.clientWidth - startX) / segmentLength) * segmentLength + startX;
 
         startX -= segmentLength;
         endX += segmentLength;
@@ -68,7 +68,7 @@ export class GraphAxes {
 
         let numY = this.graphOrigin.getCanvasCordY();
         numY = Math.max(numY, 0);
-        numY = Math.min(numY, parseInt(this.canvas.style.height));
+        numY = Math.min(numY, this.canvas.clientHeight);
 
 
         if (this.graphOrigin.getCanvasCordX() < 0) {
@@ -78,7 +78,7 @@ export class GraphAxes {
                 xAxisNums.push([num, x, numY]);
                 num += numStep;
             }
-        } else if (this.graphOrigin.getCanvasCordX() > parseInt(this.canvas.style.width)) {
+        } else if (this.graphOrigin.getCanvasCordX() > this.canvas.clientWidth) {
             // Case Only Negative Numbers
             let num = endNum;
             for (let x = endX; x > startX; x -= segmentLength) {
@@ -108,7 +108,7 @@ export class GraphAxes {
         let startY = this.graphOrigin.getCanvasCordY() % segmentLength;
         startY = startY < 0 ? startY + segmentLength : startY;
 
-        let endY = Math.floor((parseInt(this.canvas.style.height) - startY) / segmentLength) * segmentLength + startY;
+        let endY = Math.floor((this.canvas.clientHeight - startY) / segmentLength) * segmentLength + startY;
 
         startY -= segmentLength;
         endY += segmentLength;
@@ -120,7 +120,7 @@ export class GraphAxes {
 
         let numX = this.graphOrigin.getCanvasCordX();
         numX = Math.max(numX, 0);
-        numX = Math.min(numX, parseInt(this.canvas.style.width));
+        numX = Math.min(numX, this.canvas.clientWidth);
 
         if (this.graphOrigin.getCanvasCordY() < 0) {
             // Case Only Negative Numbers
@@ -129,7 +129,7 @@ export class GraphAxes {
                 yAxisNums.push([num, numX, y]);
                 num -= numStep;
             }
-        } else if (this.graphOrigin.getCanvasCordY() > parseInt(this.canvas.style.height)) {
+        } else if (this.graphOrigin.getCanvasCordY() > this.canvas.clientHeight) {
             // Case Only Positive Numbers
             let num = endNum;
             for (let y = endY; y > startY; y -= segmentLength) {
@@ -200,7 +200,7 @@ export class GraphAxes {
         let textAlignment;
         let offset = 2;
 
-        if (this.graphOrigin.getCanvasCordX() < parseInt(this.canvas.style.width)) {
+        if (this.graphOrigin.getCanvasCordX() < this.canvas.clientWidth) {
             textAlignment = "left";
         } else {
             textAlignment = "right";

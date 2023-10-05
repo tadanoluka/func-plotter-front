@@ -10,11 +10,11 @@ export class GraphOrigin {
     }
 
     updateCanvasXCord() {
-        this.canvasCordX = parseInt(this.canvas.style.width) / 2 + this.offsetX;
+        this.canvasCordX = this.canvas.clientWidth / 2 + this.offsetX;
     }
 
     updateCanvasYCord() {
-        this.canvasCordY = parseInt(this.canvas.style.height) / 2 + this.offsetY;
+        this.canvasCordY = this.canvas.clientHeight / 2 + this.offsetY;
     }
 
     getCanvasCordX() {

@@ -41,8 +41,8 @@ export class GraphScaler {
     }
 
     zoomRelativeToPointOnCanvas(x, y, scaleRatio) {
-        const zoomPointOffsetX = x - parseInt(this.canvas.style.width) / 2;
-        const zoomPointOffsetY = y - parseInt(this.canvas.style.height) / 2;
+        const zoomPointOffsetX = x - this.canvas.clientWidth / 2;
+        const zoomPointOffsetY = y - this.canvas.clientHeight / 2;
 
         const newLocalOffsetX = this.graphOrigin.getOffsetX() * scaleRatio - zoomPointOffsetX * (scaleRatio - 1);
         const newLocalOffsetY = this.graphOrigin.getOffsetY() * scaleRatio - zoomPointOffsetY * (scaleRatio - 1);
