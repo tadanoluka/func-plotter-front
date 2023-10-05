@@ -13,7 +13,8 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
-    "next": "latest",
+    "function-plot": "^1.23.3",
+    "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest"
   }
