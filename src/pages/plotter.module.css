@@ -8,12 +8,6 @@
     border-bottom: 1px solid #2d2e33;
 }
 
-.footer {
-    height: 30px;
-    background: #3D3E45;
-    border-top: 1px solid #2d2e33;
-}
-
 .center {
     width: 100%;
     height: 94vh;
@@ -51,10 +45,22 @@
 }
 
 .tab {
-    display: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .activeTab {
     display: block;
+}
+.hiddenTab {
+    display: none;
+}
+.colorTab {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .splitPane {
@@ -97,4 +103,30 @@
     background: #323339;
     border-radius: 7px;
     margin-bottom: 10px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+    background: #3D3E45;
+    border-top: 1px solid #2d2e33;
+    justify-content: space-between;
+}
+
+.footerLeft {
+    padding-left: 10px;
+    font: 14px 'Verdana', sans-serif;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.footerRight {
+    padding-right: 10px;
+    font: 14px 'Verdana', sans-serif;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }

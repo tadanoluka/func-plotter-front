@@ -1,0 +1,47 @@
+.accordionTop {
+    height: 42px;
+    background: #3D3E45;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.accordionTop:hover {
+    cursor: pointer;
+}
+.accordionTopOpen {
+    border-radius: 7px 7px 0 0;
+}
+.accordionTopClose {
+    border-radius: 7px;
+}
+
+.accordionTopIconClose {
+
+}
+.accordionTopIconOpen {
+    transform: rotate(180deg);
+}
+
+.accordionContent {
+    background: #3D3E45;
+    border-radius: 0 0 7px 7px;
+}
+.accordionContentOpen {
+    display: grid;
+    padding-left: 5px;
+}
+.accordionContentClose {
+    display: none;
+}
+
+.myCheckboxContainer {
+    display: inline-block;
+    align-items: center;
+
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

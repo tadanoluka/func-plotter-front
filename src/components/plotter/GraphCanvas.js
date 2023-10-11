@@ -1,54 +1,59 @@
-import {useEffect, useReducer, useRef, useState} from "react";
+import {useCallback, useEffect, useReducer, useRef, useState} from "react";
 // import {GraphOrigin} from "@/components/plotter/GraphOrigin";
 // import {GraphScaler} from "@/components/plotter/GraphScaler";
 
 
-export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRef, graphScalerRef, graphAxesRef, graphGridRef}) {
+export default function GraphCanvas({ graphCanvasComponentRef, canvasHeight ,canvasWidth, canvasRef, canvasContextRef, graphOriginRef, graphScalerRef, graphAxesRef, graphGridRef, graphSubgridRef}) {
 
     const [isDragging, setIsDragging] = useState(false);
 
-    const [lastMouseX, setLastMouseX] = useState()
-    const [lastMouseY, setLastMouseY] = useState()
+    const [temp, setTemp] = useState(0);
+
+
+
+    function forceUpdate() {
+        setTemp(temp + 1);
+    }
+
+    function handleResize() {
+        if (canvasRef.current == null) {
+            return
+        }
+        const canvas = canvasRef.current;
+        canvas.width = (canvas.clientWidth) * 2;
+        canvas.height = (canvas.clientHeight) * 2;
+
+        const context = canvas.getContext("2d");
+        context.scale(2,2);
+        canvasContextRef.current = context;
+
+        if (graphAxesRef.current != null) {
+            update()
+        }
+    }
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-
-        function handleResize() {
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            canvas.width = (canvas.clientWidth) * 2;
-            canvas.height = (canvas.clientHeight) * 2;
-
-            const context = canvas.getContext("2d");
-            context.scale(2,2);
-            canvasContextRef.current = context;
-
-            if (graphAxesRef.current != null) {
-                update()
-            }
-        }
+        graphCanvasComponentRef.current = this;
+        console.log(this)
         handleResize()
-        window.addEventListener('resize', handleResize)
     }, []);
+
+    useEffect(() => {
+        handleResize()
+    }, [canvasWidth]);
+    useEffect(() => {
+        handleResize()
+    }, [canvasHeight]);
 
 
     function startCanvasDragging({nativeEvent}) {
         setIsDragging(true)
-        setLastMouseX(nativeEvent.x);
-        setLastMouseY(nativeEvent.y);
     }
 
     function canvasDragging({nativeEvent}) {
         if (isDragging) {
-            const offsetX = nativeEvent.x - lastMouseX;
-            const offsetY = nativeEvent.y - lastMouseY;
-
-            graphOriginRef.current.addOffsetX(offsetX);
-            graphOriginRef.current.addOffsetY(offsetY);
-            canvasContextRef.current.fillRect(1, 1, 1, 1)
-
-            setLastMouseX(nativeEvent.x);
-            setLastMouseY(nativeEvent.y);
+            graphOriginRef.current.addOffsetX(nativeEvent.movementX);
+            graphOriginRef.current.addOffsetY(nativeEvent.movementY);
 
             update();
         }
@@ -58,11 +63,14 @@ export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRe
         setIsDragging(false)
     }
 
-    function zoom(nativeEvent) {
+    function zoom({nativeEvent}) {
+        const rect = nativeEvent.target.getBoundingClientRect();
+        const x = nativeEvent.clientX - rect.left;
+        const y = nativeEvent.clientY - rect.top;
         if (nativeEvent.deltaY < 0) {
-            graphScalerRef.current.zoomInToCanvasPoint(nativeEvent.clientX, nativeEvent.clientY);
+            graphScalerRef.current.zoomInToCanvasPoint(x, y);
         } else {
-            graphScalerRef.current.zoomOutFromCanvasPoint(nativeEvent.clientX, nativeEvent.clientY);
+            graphScalerRef.current.zoomOutFromCanvasPoint(x, y);
         }
         update();
     }
@@ -72,8 +80,9 @@ export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRe
     }
 
     function update(){
-        clearCanvas()
+        clearCanvas();
 
+        graphSubgridRef.current.draw();
         graphGridRef.current.draw();
         graphAxesRef.current.draw();
     }
@@ -84,7 +93,10 @@ export default function GraphCanvas({ canvasRef, canvasContextRef, graphOriginRe
             onMouseDown={startCanvasDragging}
             onMouseMove={canvasDragging}
             onMouseUp={endCanvasDragging}
+            onMouseLeave={endCanvasDragging}
             onWheel={zoom}
+            style={{width: "100%",
+                    height: "100%"}}
             ref={canvasRef}
         />
     );

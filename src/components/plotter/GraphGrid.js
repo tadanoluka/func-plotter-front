@@ -4,12 +4,17 @@ export class GraphGrid {
     graphScaler;
     graphOrigin;
 
+    name = "Grid"
+
+    visible = true;
     color = "rgb(255 255 255 / 20%)";
     lineTypes = ["Solid", "Dashed"];
     lineTypeIndex = 1;
     lineWidth = 1;
     dashLength = 4;
     dashInterval = 3;
+
+    step = 1;
 
 
     constructor(canvas, graphicsContext, graphScaler, graphOrigin) {
@@ -22,29 +27,31 @@ export class GraphGrid {
 
 
     getHorizontalLines() {
-        let cordY = this.graphOrigin.getCanvasCordY() % this.graphScaler.getSegmentLengthY();
+        const segmentLength = this.graphScaler.getSegmentLengthY() / this.step;
+        let cordY = this.graphOrigin.getCanvasCordY() % segmentLength;
         if (cordY < 0) {
-            cordY += this.graphScaler.getSegmentLengthY();
+            cordY += segmentLength;
         }
-        const amount =  ((this.canvas.clientHeight - cordY) / this.graphScaler.getSegmentLengthY()) + 1;
+        const amount =  ((this.canvas.clientHeight - cordY) / segmentLength) + 1;
         const lines = [];
         for (let i = 0; i < amount; i++) {
             lines[i] = [0, cordY, this.canvas.clientWidth, cordY];
-            cordY += this.graphScaler.getSegmentLengthY();
+            cordY += segmentLength;
         }
         return lines;
     }
 
     getVerticalLines() {
-        let cordX = this.graphOrigin.getCanvasCordX() % this.graphScaler.getSegmentLengthX();
+        const segmentLength = this.graphScaler.getSegmentLengthX() / this.step;
+        let cordX = this.graphOrigin.getCanvasCordX() % segmentLength;
         if (cordX < 0) {
-            cordX += this.graphScaler.getSegmentLengthX();
+            cordX += segmentLength;
         }
-        const amount = ((this.canvas.clientWidth - cordX) / this.graphScaler.getSegmentLengthX()) + 1;
+        const amount = ((this.canvas.clientWidth - cordX) / segmentLength) + 1;
         const lines = [];
         for (let i = 0; i < amount; i++) {
             lines[i] = [cordX, 0, cordX, this.canvas.clientHeight];
-            cordX += this.graphScaler.getSegmentLengthX();
+            cordX += segmentLength;
         }
         return lines;
     }
@@ -56,6 +63,9 @@ export class GraphGrid {
     }
 
     draw() {
+        if (!this.visible) {
+            return
+        }
         const prevPaint = this.graphicsContext.strokeStyle;
         const prevLineDashes = this.graphicsContext.getLineDash();
         const prevLineWidth = this.graphicsContext.lineWidth;
@@ -72,17 +82,50 @@ export class GraphGrid {
         }
 
         this.graphicsContext.lineWidth = this.lineWidth;
+
         this.graphicsContext.beginPath();
         const lines = this.getLines();
         for (let i = 0; i < lines.length; i++) {
-            this.graphicsContext.moveTo(lines[i][0], lines[i][1]);
-            this.graphicsContext.lineTo(lines[i][2], lines[i][3]);
+            this.graphicsContext.moveTo(Math.floor(lines[i][0]), Math.floor(lines[i][1]));
+            this.graphicsContext.lineTo(Math.floor(lines[i][2]), Math.floor(lines[i][3]));
         }
         this.graphicsContext.stroke();
 
         this.graphicsContext.strokeStyle = prevPaint;
         this.graphicsContext.setLineDash(prevLineDashes);
         this.graphicsContext.lineWidth = prevLineWidth;
+    }
+
+    getParams() {
+        return {
+            mainParams: {
+                name: this.name,
+                setVisible: boolean => this.setVisible(boolean),
+                getVisible: () => this.getVisible()
+            },
+            parameters: [
+                {
+                    name: "Line width",
+                    type: "slider",
+                    setter: value => this.setLineWidth(value),
+                    getter: () => this.getLineWidth()
+                },
+                {
+                    name: "Dash Length",
+                    type: "slider",
+                    setter: value => this.setDashLength(value),
+                    getter: () => this.getDashLength()
+                }
+            ]
+        }
+    }
+
+    setVisible(boolean) {
+        this.visible = boolean;
+    }
+
+    getVisible() {
+        return this.visible;
     }
 
     getLineTypes() {
