@@ -1,0 +1,30 @@
+.splitPane {
+    width: 100%;
+    flex-grow: 3;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.splitLeftPane {
+    /*overflow-y: scroll;*/
+    /*scrollbar-color: rgba(114, 115, 126, 0.2) rgb(61 62 69);*/
+    /*scrollbar-gutter: stable;*/
+    /*scrollbar-width: thin;*/
+    background: #3D3E45;
+    /*padding: 10px 3px 10px 10px;*/
+}
+
+.splitPaneDivider {
+    width: 5px;
+    background: #2d2e33;
+}
+
+.splitPaneDivider:hover {
+    cursor: e-resize;
+}
+
+.splitRightPane {
+    display: block;
+    background: #36373d;
+}

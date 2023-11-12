@@ -1,4 +1,4 @@
-import GraphPanel from "@/components/plotter/GraphPanel";
+import GraphPanel from "@/components/plotter1/GraphPanel";
 
 export default function TestPage() {
 

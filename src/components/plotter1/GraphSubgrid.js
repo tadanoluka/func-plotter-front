@@ -1,4 +1,4 @@
-import {GraphGrid} from "@/components/plotter/GraphGrid";
+import {GraphGrid} from "@/components/plotter1/GraphGrid";
 
 export class GraphSubgrid extends GraphGrid {
     name = "Subgrid"

@@ -3,17 +3,9 @@ import {useCallback, useEffect, useReducer, useRef, useState} from "react";
 // import {GraphScaler} from "@/components/plotter/GraphScaler";
 
 
-export default function GraphCanvas({ graphCanvasComponentRef, canvasHeight ,canvasWidth, canvasRef, canvasContextRef, graphOriginRef, graphScalerRef, graphAxesRef, graphGridRef, graphSubgridRef}) {
+export default function GraphCanvas({ canvasHeight ,canvasWidth, canvasRef, canvasContextRef, graphOriginRef, graphScalerRef, graphAxesRef, graphGridRef, graphSubgridRef}) {
 
     const [isDragging, setIsDragging] = useState(false);
-
-    const [temp, setTemp] = useState(0);
-
-
-
-    function forceUpdate() {
-        setTemp(temp + 1);
-    }
 
     function handleResize() {
         if (canvasRef.current == null) {
@@ -33,8 +25,6 @@ export default function GraphCanvas({ graphCanvasComponentRef, canvasHeight ,can
     }
 
     useEffect(() => {
-        graphCanvasComponentRef.current = this;
-        console.log(this)
         handleResize()
     }, []);
 

@@ -5,15 +5,15 @@ import classNames from "classnames";
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import SettingsIcon from '@mui/icons-material/Settings';
-import {GraphOrigin} from "@/components/plotter/GraphOrigin";
-import {GraphScaler} from "@/components/plotter/GraphScaler";
-import {GraphUtils} from "@/components/plotter/GraphUtils";
-import {GraphAxes} from "@/components/plotter/GraphAxes";
-import {GraphGrid} from "@/components/plotter/GraphGrid";
-import GraphCanvas from "@/components/plotter/GraphCanvas";
+import {GraphOrigin} from "@/components/plotter1/GraphOrigin";
+import {GraphScaler} from "@/components/plotter1/GraphScaler";
+import {GraphUtils} from "@/components/plotter1/GraphUtils";
+import {GraphAxes} from "@/components/plotter1/GraphAxes";
+import {GraphGrid} from "@/components/plotter1/GraphGrid";
+import GraphCanvas from "@/components/plotter1/GraphCanvas";
 import ColorTabPanel from "@/components/ColorTabPanel";
 import {IconButton} from "@mui/material";
-import {GraphSubgrid} from "@/components/plotter/GraphSubgrid";
+import {GraphSubgrid} from "@/components/plotter1/GraphSubgrid";
 
 
 export default function PlotterPage() {
@@ -49,6 +49,11 @@ export default function PlotterPage() {
     const [scale, setScale] = useState(1);
     const [scaleRatio, setScaleRatio] = useState(1.1);
 
+    const [t, setT] = useState(0);
+
+    function forceUpdate() {
+        setT(t + 1);
+    }
 
     function toggleTab(index) {
         setCurrentTab(index);
@@ -65,9 +70,6 @@ export default function PlotterPage() {
         setCanvasHeight(graphCanvasRef.current.clientHeight * 2);
     }
 
-    // useEffect(() => {
-    //     setInit(true);
-    // }, [])
 
     useEffect(() => {
         if (!graphOriginRef || !graphOriginRef.current) {
@@ -184,7 +186,7 @@ export default function PlotterPage() {
                             ? classNames(styles.tab, styles.activeTab, styles.colorTab)
                             : classNames(styles.tab, styles.hiddenTab)}
                         >
-                            <ColorTabPanel plotterComponentRef={graphGridRef} graphCanvasComponentRef={graphCanvasComponentRef}/>
+                            <ColorTabPanel plotterComponentRef={graphGridRef} forceUpdate={forceUpdate}/>
                             <ColorTabPanel plotterComponentRef={graphSubgridRef} />
                             <ColorTabPanel />
                             <ColorTabPanel />
@@ -206,7 +208,6 @@ export default function PlotterPage() {
                          onWheel={updateScaleLabel}
                     >
                         <GraphCanvas canvasRef={graphCanvasRef}
-                                     graphCanvasComponentRef={graphCanvasComponentRef}
                                      canvasWidth={canvasWidth}
                                      canvasHeight={canvasHeight}
                                      canvasContextRef={graphCanvasContextRef}

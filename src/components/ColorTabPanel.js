@@ -7,7 +7,7 @@ import {useEffect, useRef, useState} from "react";
 import classNames from "classnames";
 import ColorTabPanelProperty from "@/components/ColorTabPanelProperty";
 
-export default function ColorTabPanel({ plotterComponentRef, graphCanvasComponentRef }) {
+export default function ColorTabPanel({ plotterComponentRef, forceUpdate }) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [checkedValue, setCheckedValue] = useState(false);
@@ -18,15 +18,6 @@ export default function ColorTabPanel({ plotterComponentRef, graphCanvasComponen
     const [parameters, setParameters] = useState([{}]);
 
     const [componentName, setComponentName] = useState("")
-
-    function update() {
-        console.log(graphCanvasComponentRef)
-        if (!graphCanvasComponentRef || !graphCanvasComponentRef.current) {
-            return
-        }
-        graphCanvasComponentRef.current.forceUpdate();
-
-    }
 
     useEffect(() => {
         if (!plotterComponentRef || !plotterComponentRef.current) {
@@ -43,7 +34,7 @@ export default function ColorTabPanel({ plotterComponentRef, graphCanvasComponen
             return;
         }
         return (
-            <ColorTabPanelProperty canvasUpdater={update} key={index} name={obj.name} type={obj.type} getter={obj.getter} setter={obj.setter}/>
+            <ColorTabPanelProperty forceUpdate={forceUpdate} key={index} name={obj.name} type={obj.type} getter={obj.getter} setter={obj.setter}/>
         )
     });
 
